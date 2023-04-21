@@ -154,7 +154,7 @@ def process_login():
 
     # TODO: Need to implement this!
     email = request.form.get('email')
-    password = request.form.get('password')
+    password = hash(request.form.get('password'))
 
     customer = customers.get_by_email(email)
 
