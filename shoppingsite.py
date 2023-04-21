@@ -6,10 +6,11 @@ put melons in a shopping cart.
 Authors: Joel Burton, Christian Fernandez, Meggie Mahnken, Katie Byers.
 """
 
-from flask import Flask, render_template, redirect, flash, session
+from flask import Flask, render_template, redirect, flash, session, request
 import jinja2
 
 import melons
+import customers
 
 app = Flask(__name__)
 
@@ -24,7 +25,7 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 
 # This configuration option makes the Flask interactive debugger
 # more useful (you should remove this line in production though)
-app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
+# app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 
 @app.route("/")
@@ -145,6 +146,23 @@ def process_login():
     """
 
     # TODO: Need to implement this!
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    customer = customers.get_by_email(email)
+
+    if customer == None:
+        flash("No such email address.")
+        return redirect('/login')
+
+    if customer.password != password:
+        flash("Incorrect password.")
+        return redirect("/login")
+
+    session["logged_in_customer_email"] = customer.email
+    flash("Logged in.")
+
+    return redirect("/melons")
 
     # The logic here should be something like:
     #
@@ -158,7 +176,12 @@ def process_login():
     # - if they don't, flash a failure message and redirect back to "/login"
     # - do the same if a Customer with that email doesn't exist
 
-    return "Oops! This needs to be implemented"
+
+@app.route('/logout')
+def process_logout():
+    del session['logged_in_customer_email']
+    flash('Logged out.')
+    return redirect('/melons')
 
 
 @app.route("/checkout")
