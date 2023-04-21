@@ -101,7 +101,14 @@ def show_shopping_cart():
     # The logic here will be something like:
     #
     # - get the cart dictionary from the session
-    cart = session['cart']
+    # if melons.get_by_id()
+
+    if 'cart' in session:
+        cart = session['cart']
+    else:
+        flash('Cart is empty...')
+        return redirect('/melons')
+
     # - create a list to hold melon objects and a variable to hold the total
     melons_list = []
     #   cost of the order

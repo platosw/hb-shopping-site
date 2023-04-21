@@ -12,16 +12,16 @@
             <th>Total</th>
         </tr>
         </thead>
-        <tbody>
         {% for melon in melons_list %}
+        <tbody>
             <tr>
                 <td>{{melon.common_name}}</td>
                 <td>{{melon.quantity}}</td>
                 <td>{{melon.price_str()}}</td>
                 <td>${{"% 0.2f" | format(melon.total)}}</td>
             </tr>
-        {% endfor %}
         </tbody>
+        {% endfor %}
     </table>
 
     <h3>Total: ${{"%0.2f" | format(order_total)}}</h3>

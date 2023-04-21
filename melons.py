@@ -98,7 +98,6 @@ def get_by_id(melon_id):
     """Return a melon, given its ID."""
 
     # This relies on access to the global dictionary `melon_types`
-
     return melon_types[melon_id]
 
 
